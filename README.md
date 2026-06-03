@@ -1,6 +1,11 @@
 # Sunshine Nest Cleaning
 
-A bilingual English/Spanish starter website for Sunshine Nest Cleaning.
+Bilingual (English/Spanish) website for Sunshine Nest Cleaning — local, family-owned house cleaning in DeKalb, IL and nearby DeKalb County communities.
+
+- **Live:** https://sunshine-nest-cleaning.netlify.app
+- **Custom domain (pending DNS cutover):** https://www.sunshinenestcleaning.com
+
+See [`PROJECT_NEXT_STEPS.md`](PROJECT_NEXT_STEPS.md) for launch status and the remaining domain cutover steps.
 
 ## What this includes
 
@@ -55,13 +60,13 @@ sunshinenestcleaning.com
 
 redirecting to `www`.
 
-## Important edits before launch
+## Before publishing the custom domain
 
-Search the project for `TODO` and update:
+See [`PROJECT_NEXT_STEPS.md`](PROJECT_NEXT_STEPS.md) for the exact DNS + Netlify domain steps. Still open:
 
-- exact service area
-- business hours
-- whether supplies are included
-- whether the business is insured/bonded
+- confirm exact service radius / which towns to name publicly
+- business hours (then add `openingHoursSpecification` to the JSON-LD)
 - final email forwarding setup
-- final Google Business Profile link once created
+- Google Business Profile link once created
+
+**Copy rule:** do not add insured / bonded / background-checked / reviews / guarantee / years-in-business claims until they are verified. The current copy intentionally uses only safe, provable claims (local & family-owned, bilingual, free quotes, flexible scheduling).

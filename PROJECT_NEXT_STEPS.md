@@ -1,113 +1,87 @@
-# Sunshine Nest Cleaning — Project Next Steps
+# Sunshine Nest Cleaning — Launch Status & Next Steps
 
-## 1. GitHub repository
+_Last updated: 2026-06-03_
 
-Create a new repository named:
+## ✅ Done
 
-```text
-sunshine-nest-cleaning
-```
+- **Repo:** https://github.com/RazonIn4K/sunshine-nest-cleaning (`main`)
+- **Deployed:** https://sunshine-nest-cleaning.netlify.app (Netlify project `sunshine-nest-cleaning`, publishes `public/`, no build command)
+- **Content:** DeKalb-centered bilingual (EN/ES) site — hero, trust bar, services, "Perfect for", "What's included", service areas, FAQ, quote form
+- **SEO:** DeKalb title/meta/OG, `og-image.png` (1200×630), `HouseCleaningService` + `FAQPage` JSON-LD, sitemap, robots
+- **Quality:** independent code review (passed), live axe-core WCAG 2.0/2.1 A+AA audit = 0 violations (EN + ES)
+- **Forms:** `quote` form detected by Netlify with all fields + honeypot; test submissions (EN + ES + direct POST) all captured correctly, then deleted
+- **HTTPS/security headers:** active on the `.netlify.app` URL (HSTS, X-Frame-Options, etc. via `netlify.toml`)
+- **Apex DNS:** `A @ → 75.2.60.5` already present at Unstoppable
 
-Recommended options:
+## 🔑 Remaining: custom-domain cutover (manual — dashboards)
 
-- Visibility: Public is okay for a static business site; Private is fine too.
-- Do not initialize with README if you plan to upload this starter package directly.
-- Default branch: `main`
+The site is live on `*.netlify.app`. To serve the real domain (`www.sunshinenestcleaning.com`, which the canonical + og:image URLs already use):
 
-## 2. Push this starter package
+### Step 1 — Add the missing DNS record at Unstoppable Domains
 
-From the unzipped project folder:
-
-```bash
-git init
-git add .
-git commit -m "Initial Sunshine Nest Cleaning website"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/sunshine-nest-cleaning.git
-git push -u origin main
-```
-
-Or with GitHub CLI:
-
-```bash
-gh repo create sunshine-nest-cleaning --public --source=. --remote=origin --push
-```
-
-## 3. Netlify project
-
-Use the existing Netlify project:
+Apex `A @ → 75.2.60.5` is already set. Add:
 
 ```text
-sunshine-nest-cleaning
+Type: CNAME   Host: www   Value: sunshine-nest-cleaning.netlify.app   TTL: 1 Hour
 ```
 
-Build settings:
+If Unstoppable blocks a `CNAME` on `www` while an old `A www` exists, delete the old `A www` first.
 
-```text
-Build command: leave blank
-Publish directory: public
-```
+### Step 2 — Add the domain to the Netlify site (this is the part that makes the apex serve)
 
-Then connect the GitHub repo in Netlify so future pushes auto-deploy.
+Netlify → site `sunshine-nest-cleaning` → **Domain management → Add a domain** → `sunshinenestcleaning.com`.
 
-## 4. Unstoppable DNS records
+- Add both `sunshinenestcleaning.com` and `www.sunshinenestcleaning.com`.
+- **Set `www.sunshinenestcleaning.com` as the primary domain** (matches the site's canonical URLs).
+- Netlify auto-provisions the Let's Encrypt certificate once it detects the DNS above.
 
-Current DNS should stay with Unstoppable Domains.
+> Note: the apex A record alone is not enough — until the domain is added here, the apex resolves to Netlify's IP but returns no TLS.
 
-Add these production web records:
+### Step 3 — Verify (after propagation, ~minutes to ~1 hour)
 
-```text
-A      @      75.2.60.5
-CNAME  www    sunshine-nest-cleaning.netlify.app
-```
+- `https://www.sunshinenestcleaning.com` loads with a valid certificate
+- apex `sunshinenestcleaning.com` 301-redirects to `www`
+- re-submit the quote form once from the real domain and confirm it appears in Netlify Forms
 
-If Unstoppable does not allow `CNAME` for `www` while an old `A www` exists, delete the old `A www` first.
+## Optional follow-ups (not blocking)
 
-## 5. Email forwarding records
+### Continuous deploy (recommended)
 
-Recommended public email:
+Deploys are currently manual. To auto-deploy on every push:
+Netlify → site → **Site configuration → Build & deploy → Link repository** → connect `RazonIn4K/sunshine-nest-cleaning` (build command blank, publish dir `public`).
 
-```text
-info@sunshinenestcleaning.com
-```
+### Email forwarding (`info@sunshinenestcleaning.com`)
 
-Destination inbox:
-
-```text
-your-private-inbox@example.com   (real address kept in local-only dns-records.txt)
-```
-
-Forward Email DNS records:
+Not set up yet (no MX/TXT records exist). When ready, add at Unstoppable — real destination inbox is in the **git-ignored** `dns-records.txt`:
 
 ```text
 MX   @   0   mx1.forwardemail.net
 MX   @   0   mx2.forwardemail.net
-TXT  @       forward-email=your-private-inbox@example.com
+TXT  @       forward-email=<destination-inbox>
 TXT  @       v=spf1 a include:spf.forwardemail.net include:_spf.google.com -all
 ```
 
-Privacy note: the free DNS-based forwarding setup can expose the destination Gmail in public DNS. Use a paid/private setup if that matters.
+Privacy note: free DNS-based forwarding exposes the destination address in public DNS. Use a paid/private setup if that matters. Then configure Gmail "Send mail as".
 
-## 6. Netlify Forms
+### Content / growth
 
-The quote form in `public/index.html` already includes:
+- Confirm exact service radius and the towns to name publicly
+- Add business hours (then add `openingHoursSpecification` to the JSON-LD)
+- Add real photos / testimonials when available (do **not** add insured/bonded/reviews/guarantee claims until verified)
+- Add Google Search Console + Google Business Profile
 
-```html
-data-netlify="true"
-```
+## Launch checklist
 
-After the first production deploy, open Netlify Forms and submit a test request.
-
-## 7. Launch checklist
-
-- [ ] Confirm `https://www.sunshinenestcleaning.com` loads
-- [ ] Confirm root domain redirects properly
-- [ ] Confirm HTTPS certificate is active
-- [ ] Submit quote form test
-- [ ] Confirm form submission appears in Netlify
-- [ ] Confirm `info@sunshinenestcleaning.com` forwards to Gmail
-- [ ] Configure Gmail “Send mail as”
-- [ ] Add Google Search Console
-- [ ] Create Google Business Profile
-- [ ] Confirm exact service area and business hours
-- [ ] Add real photos/testimonials when available
+- [x] Repo created and pushed
+- [x] Deployed to Netlify (`.netlify.app`)
+- [x] HTTPS active on the Netlify URL
+- [x] Quote form detected + test submission captured in Netlify Forms
+- [x] Accessibility + SEO verified on the live page
+- [ ] `CNAME www` added at Unstoppable
+- [ ] Domain added to the Netlify site (`www` primary)
+- [ ] `https://www.sunshinenestcleaning.com` loads with HTTPS
+- [ ] Apex redirects to `www`
+- [ ] Email forwarding configured (or intentionally deferred)
+- [ ] (Optional) GitHub → Netlify continuous deploy linked
+- [ ] Google Search Console + Business Profile
+- [ ] Real photos / confirmed hours / service radius
