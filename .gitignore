@@ -11,3 +11,8 @@ Thumbs.db
 
 # Private DNS/contact details (kept local only)
 dns-records.txt
+
+# Browser-automation artifacts
+.playwright-mcp/
+/og-image.png
+sunshine-nest-live-home.png
