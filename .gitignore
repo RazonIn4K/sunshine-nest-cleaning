@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Editor / OS cruft
+*.swp
+*~
+Thumbs.db
+
+# Netlify local
+.netlify/
+
+# Private DNS/contact details (kept local only)
+dns-records.txt
